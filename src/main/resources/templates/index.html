@@ -7,6 +7,53 @@
 </head>
 <body>
 <h2>Hello zhkui!</h2>
-<div th.text="${name}"/>
+<div id="name" th:text="${name}" onclick="sendMassage()">dd</div>
 </body>
+<script type="text/javascript">
+
+    var strhost = "ws://" + window.location.host + "/audio";
+    // Setup the WebSocket connection and start the player
+    var client = new WebSocket( strhost );
+
+
+    client.binaryType = 'arraybuffer';
+
+    client.onopen = function(evt) {
+        onOpen(evt)
+    };
+    client.onclose = function(evt) {
+        onClose(evt)
+    };
+    client.onmessage = function(evt) {
+        onMessage(evt)
+    };
+    client.onerror = function(evt) {
+        onError(evt)
+    };
+
+    function onOpen(evt) {
+        console.log("open");
+        client.send('ddddd');
+    }
+
+    function onClose(evt) {
+        console.log("close");
+    }
+
+    function onMessage(evt) {
+        var node = document.getElementById("name");
+        console.log(node)
+        node.innerText = evt.data;
+    }
+
+    function onError(evt) {
+        console.log("error");
+    }
+
+    function sendMassage() {
+        client.send("helo server,this is a test!!")
+        alert("send!")
+    }
+
+    </script>
 </html>
