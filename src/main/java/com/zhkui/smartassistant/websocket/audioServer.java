@@ -27,6 +27,11 @@ public class audioServer {
         mSession = session;
         sWebSocketServers.add(this); // 将回话保存
         mLog.info("-->onOpen new connect");
+        try {
+            mSession.getBasicRemote().sendText("onOpen zhangkui");
+        } catch (IOException e) {
+            mLog.error(e.toString());
+        }
     }
 
     @OnClose
@@ -36,9 +41,9 @@ public class audioServer {
     }
 
     @OnMessage
-    public void onMassage(byte[] massage){
+    public void onMassage(String massage){
         mLog.info("-->receive a massage:");
-        mLog.info(massage.toString());
+        mLog.info(massage);
     }
 
     public void sendMassage(byte[] massage){
